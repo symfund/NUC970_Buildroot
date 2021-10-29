@@ -1,1 +1,4 @@
-Patch buildroot for cross compiling Qt 4.8.7
+# Patches
+
+1. cross compiling Qt 4.8.7
+2. cross compiling OpenSSH with uclibc
