@@ -1,4 +1,4 @@
 # Patches
 
 1. Fixed cross-compiling Qt 4.8.7
-2. Fixed cross-compiling OpenSSH with uClibc
+2. Fixed cross-compiling OpenSSH with uClibc for NUC97x
