@@ -1,0 +1,12 @@
+diff -urN a/gcc/ubsan.c b/gcc/ubsan.c
+--- a/gcc/ubsan.c	2016-08-12 12:57:35.000000000 -0700
++++ b/gcc/ubsan.c	2021-02-09 19:35:38.659582370 -0800
+@@ -1469,7 +1469,7 @@
+ 
+   expanded_location xloc = expand_location (loc);
+   if (xloc.file == NULL || strncmp (xloc.file, "\1", 2) == 0
+-      || xloc.file == '\0' || xloc.file[0] == '\xff'
++      || xloc.file[0] == '\0' || xloc.file[0] == '\xff'
+       || xloc.file[1] == '\xff')
+     return false;
+ 
