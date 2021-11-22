@@ -3,3 +3,4 @@
 1. Fixed cross-compiling Qt 4.8.7
 2. Fixed cross-compiling OpenSSH with uClibc for NUC97x
 3. Fixed major minor macros not defined when building host-mtd with UBIFS filesystem enabled
+4. Fixed the compiling error that ISO C++ forbids comparison between integer and pointer when using GCC 6.2.0 
