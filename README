@@ -2,3 +2,4 @@
 
 1. Fixed cross-compiling Qt 4.8.7
 2. Fixed cross-compiling OpenSSH with uClibc for NUC97x
+3. Fixed major minor macros not defined when building host-mtd with UBIFS filesystem enabled
