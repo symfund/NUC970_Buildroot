@@ -16,8 +16,8 @@ select_defconfig()
 	make list-defconfigs | grep nuvoton
 	echo ""
 
-	echo "${GREEN}Type the configuration file, followed by [ ENTER ]${NOCOLOR}"
-	echo "If no file is specified, the default configuration ${RED}${defconfig}${NOCOLOR} will be used."
+	echo -e "${GREEN}Type the configuration file, followed by [ ENTER ]${NOCOLOR}"
+	echo -e "If no file is specified, the default configuration ${RED}${defconfig}${NOCOLOR} will be used."
 
 	while [ true ] 
 	do
@@ -27,11 +27,11 @@ select_defconfig()
 			break
 		else
 			if [[ -z "${config}" ]] ; then
-				echo "timeout, load the default configuration file ${RED}${defconfig}${NOCOLOR}"
+				echo -e "timeout, load the default configuration file ${RED}${defconfig}${NOCOLOR}"
 				make ${defconfig}
 				break
 			else
-				echo "The configuration file ${config} does not exist!"
+				echo -e "The configuration file ${RED}${config}${NOCOLOR} does not exist!"
 			fi
 		fi
 	done
