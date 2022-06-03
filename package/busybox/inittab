@@ -31,7 +31,7 @@
 # this yourself...
 #
 # Start an "askfirst" shell on the console (whatever that may be)
-::once:-/bin/sh
+#::once:-/bin/sh
 
 # Put a getty on the serial port
 #ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100 # GENERIC_SERIAL
