@@ -92,20 +92,39 @@ override_srcdir()
 
 	mkdir -p workspace
 	
-	if [[ ! -d workspace/linux-master ]]; then
-		tar xzvf dl/linux-master.tar.gz -C workspace/
+	if [[ "${PLATFORM}" = "NUC980" ]]; then
+		if [[ ! -d workspace/linux-4.4.289 ]]; then
+			tar xzvf dl/linux-master.tar.gz -C workspace/
+			mv workspace/linux-master workspace/linux-4.4.289
+		fi
 	fi
+
+	if [[ "${PLATFORM}" = "NUC970" ]]; then
+                if [[ ! -d workspace/linux-3.10.108 ]]; then
+                        tar xzvf dl/linux-master.tar.gz -C workspace/
+                        mv workspace/linux-master workspace/linux-3.10.108
+                fi
+        fi
 	
-	if [[ ! -d workspace/uboot-master ]]; then
+	if [[ ! -d workspace/uboot-2016.11 ]]; then
 		tar xzvf dl/uboot-master.tar.gz -C workspace/
+		mv workspace/uboot-master workspace/uboot-2016.11
 	fi
 
 	#if [[ ! -d workspace ]]; then
 	#	tar xzvf dl/applications-1.0.0.tar.gz -C workspace/
 	#fi
 
-	echo 'UBOOT_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/uboot-master' >> local.mk
-	echo 'LINUX_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/linux-master' >> local.mk
+	echo 'UBOOT_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/uboot-2016.11' >> local.mk
+
+	if [[ "${PLATFORM}" = "NUC970" ]]; then
+		echo 'LINUX_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/linux-3.10.108' >> local.mk
+	fi
+
+	if [[ "${PLATFORM}" = "NUC980" ]]; then
+                echo 'LINUX_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/linux-4.4.289' >> local.mk
+        fi
+
 	#echo 'APPLICATIONS_OVERRIDE_SRCDIR=$(CONFIG_DIR)/workspace/NUC970_Linux_Applications-master' >> local.mk
 }
 
@@ -118,7 +137,7 @@ sync_uboot_repo() {
 
 	if [[ $SYNC_REPO_DISABLED = true ]] ; then return 0 ; fi
 
-	cd workspace/uboot-master
+	cd workspace/uboot-2016.11
 
 	if [[ ! -d .git ]] ; then
 		git init
@@ -177,16 +196,20 @@ sync_linux_repo() {
 
 	if [[ $SYNC_REPO_DISABLED = true ]] ; then return 0 ; fi
 
-	cd workspace/linux-master
+	if [[ "${PLATFORM}" == "NUC970" ]]; then
+		cd workspace/linux-3.10.108
 
-	if [[ ! -d .git ]]; then
-		git init
-
-		if [[ "${PLATFORM}" == "NUC970" ]]; then
+		if [[ ! -d .git ]]; then
+			git init
 			git remote add origin https://github.com/OpenNuvoton/NUC970_Linux_Kernel.git
 		fi
+	fi
 
-		if [[ "${PLATFORM}" == "NUC980" ]]; then
+	if [[ "${PLATFORM}" == "NUC980" ]]; then
+		cd workspace/linux-4.4.289
+
+		if [[ ! -d .git ]]; then
+			git init
 			git remote add origin https://github.com/OpenNuvoton/NUC980-linux-4.4.y.git
 		fi
 	fi
@@ -311,9 +334,9 @@ source workspace/configs/build.conf
 rm -rf local.mk
 select_defconfig
 
-until make linux-source ; do echo "failed to fetch linux source for NUC97X, retrying..." ; done
-until make uboot-source ; do echo "failed to fetch uboot source for NUC97X, retrying..." ; done
-#until make applications-source ; do echo "failed to fetch applications source for NUC97X, retrying..." ; done
+until make linux-source ; do echo "failed to fetch linux source for ${PLATFORM}, retrying..." ; done
+until make uboot-source ; do echo "failed to fetch uboot source for ${PLATFORM}, retrying..." ; done
+#until make applications-source ; do echo "failed to fetch applications source for ${PLATFORM}, retrying..." ; done
 
 override_srcdir
 
