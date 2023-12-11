@@ -5,3 +5,4 @@
 3. Fixed major minor macros not defined when building host-mtd with UBIFS filesystem enabled
 4. Fixed the compiling error that ISO C++ forbids comparison between integer and pointer when using GCC 6.2.0 
 5. Fixed Linux login with password caused by busybox's inittab
+6. Integrated uMTP-Responder userspace USB device gadget driver

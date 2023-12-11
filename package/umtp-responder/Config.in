@@ -1,0 +1,4 @@
+config BR2_PACKAGE_UMTP_RESPONDER
+        bool "umtp responder"
+        help
+          https://github.com/viveris/uMTP-Responder
