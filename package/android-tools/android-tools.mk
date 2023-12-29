@@ -81,5 +81,12 @@ define ANDROID_TOOLS_INSTALL_TARGET_CMDS
 		$(INSTALL) -D -m 0755 $(@D)/build-$(t)/$(t) $(TARGET_DIR)/usr/bin/$(t)$(sep))
 endef
 
+define ANDROID_TOOLS_INSTALL_INIT_SYSV
+        $(INSTALL) -m 0755 -D $(ANDROID_TOOLS_PKGDIR)/S99adb+serial \
+                $(TARGET_DIR)/etc/init.d/S99adb+serial
+	$(INSTALL) -m 0755 -D $(ANDROID_TOOLS_PKGDIR)/adb \
+                $(TARGET_DIR)/etc/init.d/adb
+endef
+
 $(eval $(host-generic-package))
 $(eval $(generic-package))

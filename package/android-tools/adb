@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Start adb....
+#
+case "$1" in
+  start)
+        cd /sys/kernel/config/usb_gadget
+        killall adbd
+        mkdir -p demo/functions/ffs.adb
+        ln -s demo/functions/ffs.adb demo/configs/c.1
+        mkdir -p /dev/usb-ffs/adb
+
+        adb_dev="nuvoton-adb-dev"
+        if [ ! -f "/usr/data/disableadb"  ];then
+                echo "Starting adb ..."
+                echo -n $adb_dev > demo/strings/0x409/serialnumber
+                cd -
+                mount -t functionfs adb /dev/usb-ffs/adb
+                adbd &
+                sleep 1
+        else
+                echo "Not start adb"
+                echo -n $adb_dev > demo/strings/0x409/serialnumber
+                cd -
+        fi
+        ;;
+  stop)
+        killall adbd
+        sleep 1
+        umount /dev/usb-ffs/adb
+        rm /sys/kernel/config/usb_gadget/ -rf
+        rm /sys/kernel/config/usb_gadget/ -rf
+        umount /sys/kernel/config
+        ;;
+  restart|reload)
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
+
+

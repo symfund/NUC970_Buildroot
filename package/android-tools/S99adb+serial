@@ -1,0 +1,41 @@
+#! /bin/sh
+CONFIGS_HOME=/sys/kernel/config/usb_gadget/demo
+case "$1" in
+  start)
+        modprobe libcomposite
+        mount none /sys/kernel/config -t configfs
+        mkdir /sys/kernel/config/usb_gadget/demo
+        cd /sys/kernel/config/usb_gadget/demo
+        mkdir strings/0x409
+        echo 0x1d6b >  idVendor
+        echo 0x0105 >  idProduct
+        echo 0x0200 >  bcdDevice
+        echo "1234567ab" > strings/0x409/serialnumber
+        echo "stack" > strings/0x409/manufacturer
+        echo "usb composite" > strings/0x409/product
+        mkdir -p /sys/kernel/config/usb_gadget/demo/configs/c.1
+        mkdir -p /sys/kernel/config/usb_gadget/demo/configs/c.1/strings/0x409
+        echo "adb+serial" > $CONFIGS_HOME/configs/c.1/strings/0x409/configuration
+        echo 0xc0 > $CONFIGS_HOME/configs/c.1/bmAttributes
+        echo 500 > $CONFIGS_HOME/configs/c.1/MaxPower
+
+        #/etc/init.d/usb/uvc $1
+        /etc/init.d/adb $1
+	
+	cd /sys/kernel/config/usb_gadget/demo
+	mkdir functions/acm.usb
+	ln -s functions/acm.usb configs/c.1
+	
+        ls /sys/class/udc > $CONFIGS_HOME/UDC
+        ;;
+   stop)
+        echo none > /sys/kernel/config/usb_gadget/demo/UDC
+        /etc/init.d/usb/adb $1
+	
+        ;;
+*)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?

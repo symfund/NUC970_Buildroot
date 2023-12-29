@@ -1,0 +1,21 @@
+diff -urN a/core/adbd/transport.c b/core/adbd/transport.c
+--- a/core/adbd/transport.c	2023-12-28 20:00:26.032577615 -0500
++++ b/core/adbd/transport.c	2023-12-28 20:06:09.460148318 -0500
+@@ -285,7 +285,7 @@
+         } else {
+             D("%s: remote read failed for transport\n", t->serial);
+             put_apacket(p);
+-            break;
++            continue; /* patched by Nuvoton twjiang@nuvoton.com */
+         }
+     }
+ 
+@@ -326,7 +326,7 @@
+             if(p->msg.arg0 == 0) {
+                 D("%s: transport SYNC offline\n", t->serial);
+                 put_apacket(p);
+-                break;
++                continue; /* patched by Nuvoton twjiang@nuvoton.com */
+             } else {
+                 if(p->msg.arg1 == t->sync_token) {
+                     D("%s: transport SYNC online\n", t->serial);
