@@ -1,21 +1,67 @@
 diff -urN a/core/adbd/transport.c b/core/adbd/transport.c
---- a/core/adbd/transport.c	2023-12-28 20:00:26.032577615 -0500
-+++ b/core/adbd/transport.c	2023-12-28 20:06:09.460148318 -0500
-@@ -285,7 +285,7 @@
+--- a/core/adbd/transport.c	2024-01-03 00:28:15.909311998 -0500
++++ b/core/adbd/transport.c	2024-01-01 23:40:46.264782035 -0500
+@@ -266,7 +266,7 @@
+     p->msg.magic = A_SYNC ^ 0xffffffff;
+     if(write_packet(t->fd, t->serial, &p)) {
+         put_apacket(p);
+-        D("%s: failed to write SYNC packet\n", t->serial);
++        printf("%s: failed to write SYNC packet\n", t->serial);
+         goto oops;
+     }
+ 
+@@ -279,13 +279,13 @@
+               t->serial);
+             if(write_packet(t->fd, t->serial, &p)){
+                 put_apacket(p);
+-                D("%s: failed to write apacket to transport\n", t->serial);
+-                goto oops;
++                printf("%s: failed to write apacket to transport\n", t->serial);
++                continue;
+             }
          } else {
              D("%s: remote read failed for transport\n", t->serial);
              put_apacket(p);
 -            break;
-+            continue; /* patched by Nuvoton twjiang@nuvoton.com */
++            continue;
          }
      }
  
-@@ -326,7 +326,7 @@
+@@ -301,7 +301,7 @@
+     }
+ 
+ oops:
+-    D("%s: transport output thread is exiting\n", t->serial);
++    printf("%s: transport output thread is exiting\n", t->serial);
+     kick_transport(t);
+     transport_unref(t);
+     return 0;
+@@ -318,15 +318,15 @@
+ 
+     for(;;){
+         if(read_packet(t->fd, t->serial, &p)) {
+-            D("%s: failed to read apacket from transport on fd %d\n",
++            printf("%s: failed to read apacket from transport on fd %d\n",
+                t->serial, t->fd );
+-            break;
++            continue;
+         }
+         if(p->msg.command == A_SYNC){
              if(p->msg.arg0 == 0) {
-                 D("%s: transport SYNC offline\n", t->serial);
+-                D("%s: transport SYNC offline\n", t->serial);
++                printf("%s: transport SYNC offline\n", t->serial);
                  put_apacket(p);
 -                break;
-+                continue; /* patched by Nuvoton twjiang@nuvoton.com */
++                continue;
              } else {
                  if(p->msg.arg1 == t->sync_token) {
                      D("%s: transport SYNC online\n", t->serial);
+@@ -352,7 +352,7 @@
+     // while a client socket is still active.
+     close_all_sockets(t);
+ 
+-    D("%s: transport input thread is exiting, fd %d\n", t->serial, t->fd);
++    printf("%s: transport input thread is exiting, fd %d\n", t->serial, t->fd);
+     kick_transport(t);
+     transport_unref(t);
+     return 0;
