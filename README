@@ -10,4 +10,3 @@
 8. Upgraded bind 9.11.0p1 to 9.11.36
 9. Upgraded openssh 7.4p1 to 9.6p1
 10. Upgraded openssl 1.0.2j to 1.1.1q
-12. Upgrading bind, openssh and openssl require to configure buildroot to select C library 'glibc' not the 'uClibc' in Toolchain configuration.
