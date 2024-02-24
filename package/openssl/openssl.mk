@@ -83,6 +83,7 @@ define OPENSSL_CONFIGURE_CMDS
 			no-unit-test no-crypto-mdebug-backtrace no-crypto-mdebug no-autoerrinit \
 			no-dynamic-engine \
 			no-comp \
+			$(if $(BR2_TOOLCHAIN_USES_UCLIBC),no-async) \
 			$(if $(BR2_STATIC_LIBS),zlib,zlib-dynamic) \
 			$(if $(BR2_STATIC_LIBS),no-dso) \
 	)
