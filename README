@@ -1,12 +1,13 @@
 # Patches
 
-1. Fixed cross-compiling Qt 4.8.7
-2. Fixed cross-compiling OpenSSH with uClibc for NUC97x
-3. Fixed major minor macros not defined when building host-mtd with UBIFS filesystem enabled
-4. Fixed the compiling error that ISO C++ forbids comparison between integer and pointer when using GCC 6.2.0 
-5. Fixed Linux login with password caused by busybox's inittab
-6. Integrated uMTP-Responder userspace USB device gadget driver
-7. Build Linux with buildroot-2016.11.1 on Ubuntu 22.04
-8. Upgraded bind 9.11.0p1 to 9.11.36
-9. Upgraded openssh 7.4p1 to 9.6p1
-10. Upgraded openssl 1.0.2j to 1.1.1q
+- Fixed cross-compiling Qt 4.8.7
+- Fixed cross-compiling OpenSSH with uClibc for NUC97x
+- Fixed major minor macros not defined when building host-mtd with UBIFS filesystem enabled
+- Fixed the compiling error that ISO C++ forbids comparison between integer and pointer when using GCC 6.2.0 
+- Fixed Linux login with password caused by busybox's inittab
+- Integrated uMTP-Responder userspace USB device gadget driver
+- Build Linux with buildroot-2016.11.1 on Ubuntu 22.04
+- Upgraded bind 9.11.0p1 to 9.11.36
+- Upgraded openssh 7.4p1 to 9.6p1
+- Upgraded openssl 1.0.2j to 1.1.1q
+- Upgraded libmodbus 3.0.6 to 3.1.10
